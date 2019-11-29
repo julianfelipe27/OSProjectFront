@@ -18,11 +18,18 @@ var app = new Vue({
             {text:'Process Name', value:'name', sorteable:true, align:'center'},
             {text:'Kill?', value:'kill', sorteable:false, align:'center'},
         ],
-        processes:[]
+	processes:[]
     },
-    mounted(){
-        let process=[]
-        fetch('http://localhost:3000/listProcess').then(response=>{
+    created(){
+       	this.fetchProcesses()
+	this.$watch('processes', ()=>{
+	this.fetchProcesses()
+	})
+        },	
+    methods:{
+	async fetchProcesses(){
+	 let process=[]
+        await fetch('http://localhost:3000/listProcess').then(response=>{
             return response.json()
         }).then(json=>{
              json.map(p=>{
@@ -30,21 +37,18 @@ var app = new Vue({
              })   
         })
         this.processes=process
-        },
-    methods:{
+	},
         refresh(){
         window.location.reload()
         },
-        async killProcess(id){
+        killProcess(id){
         let msg=""
-        await fetch(`http://localhost:3000/killProcess/${id}`).then(response=>{
+        fetch(`http://localhost:3000/killProcess/${id}`).then(response=>{		
              return response.json()
         }).then(json=>{
-            msg=json.text
+            
         })
-        this.isOpen=true
-        this.msg=msg
-        this.loaded=true
+        
         }
     }
 })

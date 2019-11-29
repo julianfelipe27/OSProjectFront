@@ -23,35 +23,12 @@
                 append-icon="search"
               ></v-text-field>
             <v-data-table style="width: 100%" :search="search" :items-per-page="30"  :items="processes" :headers="headers">
-                    <template v-slot:item.kill="{ item }">
+
+   <template v-slot:item.kill="{ item }">
                             <v-btn small color="primary" rounded @click="killProcess(item.pid), isOpen=true">
                               <v-icon>mdi-close-circle</v-icon>
                               </v-btn>
-                              <v-dialog persistent max-width="400px" v-model="isOpen">
-                                    <v-card style="display: flex; flex-direction:column; align-items:center">
-                                        <v-card-title>
-                                            {{item.name}}
-                                        </v-card-title>
-                                        <v-card-text>
-                                            <div v-if="!loaded" style="width:100%;display: flex;justify-content: center;" >
-                                                <v-progress-circular
-                                                indeterminate
-                                                color="primary"
-                                              ></v-progress-circular>
-                                            </div>
-                                              <p v-if="loaded">
-                                                  {{msg}}
-                                              </p>
-                                        </v-card-text>
-                                        <v-card-actions>
-                                            <v-btn @click="isOpen=false, msg='', loaded=false, refresh() " :disabled="!loaded">
-                                                Ok
-                                            </v-btn>
-                                        </v-card-actions>
-                                    </v-card>
-                                </v-dialog>
-                          </template>
-            </v-data-table>
+                          </template>                             </v-data-table>
         </v-container>
       </v-content>
     </v-app>
